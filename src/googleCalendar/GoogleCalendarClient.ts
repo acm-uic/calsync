@@ -13,6 +13,7 @@ export interface IGoogleCalendarClientParams {
 }
 
 export interface IGetEventsParams {
+  /** Breakup recurring events into instances */
   singleEvents: boolean;
   /** ISO Date string */
   timeMin: Date;
