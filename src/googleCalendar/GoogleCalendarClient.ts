@@ -1,7 +1,7 @@
 /// <reference types="gapi.client.calendar" />
 
-import axios, { AxiosInstance } from "axios";
-import { URLSearchParams } from "url";
+import axios, { AxiosError, AxiosInstance } from "axios";
+import logger from "../util/logger";
 
 export type ICalendarEvent = gapi.client.calendar.Event;
 export type ICalendarEventDateTime = gapi.client.calendar.EventDateTime;
@@ -44,19 +44,30 @@ export class GoogleCalendarClient {
    * Events in the past and a year from "now" are filtered and recurring events are expanded into single events.
    * @returns Google Calendar Events
    */
-  public async getEvents({ singleEvents, timeMax, timeMin, maxResults, orderBy }: IGetEventsParams) {
-    const calendarRequestParams = {
-      singleEvents: singleEvents.toString(),
-      timeMin: timeMin.toISOString(),
-      timeMax: timeMax.toISOString(),
-      maxResults: `${maxResults}`,
-      orderBy,
-    };
-    const calendarResponse = (
-      await this._apiClient.get(
-        `/calendars/${this._calendarId}/events?${new URLSearchParams(calendarRequestParams).toString()}`
-      )
-    ).data;
-    return calendarResponse;
+  public async getEvents({
+    singleEvents,
+    timeMax,
+    timeMin,
+    maxResults,
+    orderBy,
+  }: IGetEventsParams): Promise<ICalendarEventsResponse> {
+    try {
+      const calendarRequestParams = {
+        singleEvents: singleEvents.toString(),
+        timeMin: timeMin.toISOString(),
+        timeMax: timeMax.toISOString(),
+        maxResults: `${maxResults}`,
+        orderBy,
+      };
+      const calendarResponse = (
+        await this._apiClient.get<ICalendarEventsResponse>(`/calendars/${this._calendarId}/events`, {
+          params: calendarRequestParams,
+        })
+      ).data;
+      return calendarResponse;
+    } catch (e) {
+      logger.error(`Error getting events from Google Calendar API. Response: ${(e as AxiosError).response?.data}`);
+      throw e;
+    }
   }
 }
