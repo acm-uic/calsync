@@ -40,7 +40,7 @@ export interface ICreateEventRequestData {
   scheduled_end_time?: string | null;
   /** Discord event type. {@link EventEntityType} */
   entity_type: EventEntityType;
-  /** Voice channel id. Null when {@link event_type} is {@link EventEntityType.SOMEWHERE_ELSE} */
+  /** Voice channel id. Null when {@link entity_type} is {@link EventEntityType.SOMEWHERE_ELSE} */
   channel_id: string | null;
   /** Discord event metadata. */
   entity_metadata?: {
