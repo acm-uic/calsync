@@ -105,6 +105,7 @@ export enum ChannelType {
 export interface IBaseChannel {
   id: string;
   type: number;
+  name: string;
 }
 
 /**
@@ -230,7 +231,7 @@ export class DiscordClient {
   public async getChannels(): Promise<IBaseChannel[]> {
     try {
       return (await this._apiClient.get<IBaseChannel[]>(`/guild/${this._config.guildId}/channels`)).data.map(
-        ({ id, type }): IBaseChannel => ({ id, type })
+        ({ id, type, name }): IBaseChannel => ({ id, type, name })
       );
     } catch (e) {
       logger.error(`Error getting channels from discord. Response: ${(e as AxiosError).response?.data}`);
