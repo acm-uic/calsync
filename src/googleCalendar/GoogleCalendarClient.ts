@@ -42,6 +42,7 @@ export class GoogleCalendarClient {
   /**
    * Get events list for a specific calendar from google calendar api.
    * Events in the past and a year from "now" are filtered and recurring events are expanded into single events.
+   * @throws Will throw error if HTTP request was not successful.
    * @returns Google Calendar Events
    */
   public async getEvents({
