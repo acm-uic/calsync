@@ -1,5 +1,5 @@
 /**
- * @file This file exposes a discord client that can create, read, update, delete events from a discord server.
+ * @file This file exposes a Discord HTTP API Client.
  */
 
 import axios, { AxiosError, AxiosInstance } from "axios";
