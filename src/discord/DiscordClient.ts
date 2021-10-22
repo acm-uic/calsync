@@ -6,13 +6,13 @@ import axios, { AxiosError, AxiosInstance } from "axios";
 import { DISCORD_API_BASE, DISCORD_SUPER_PROPERTIES } from "../config";
 import logger from "../util/logger";
 
-export enum DiscordEventEntityType {
+export enum EventEntityType {
   STAGE_CHANNEL = 1,
   VOICE_CHANNEL = 2,
   SOMEWHERE_ELSE = 3,
 }
 
-export enum DiscordEventStatus {
+export enum EventStatus {
   UPCOMING = 1,
   ONGOING = 2,
 }
@@ -36,23 +36,23 @@ export interface ICreateEventRequestData {
   privacy_level: number;
   /** Event start time in ISO Format. */
   scheduled_start_time: string;
-  /** Event end time in ISO Format. Null when {@link entity_type} is {@link DiscordEventEntityType.VOICE_CHANNEL}. */
+  /** Event end time in ISO Format. Null when {@link entity_type} is {@link EventEntityType.VOICE_CHANNEL}. */
   scheduled_end_time?: string | null;
-  /** Discord event type. {@link DiscordEventEntityType} */
-  entity_type: DiscordEventEntityType;
-  /** Voice channel id. Null when {@link event_type} is {@link DiscordEventEntityType.SOMEWHERE_ELSE} */
+  /** Discord event type. {@link EventEntityType} */
+  entity_type: EventEntityType;
+  /** Voice channel id. Null when {@link event_type} is {@link EventEntityType.SOMEWHERE_ELSE} */
   channel_id: string | null;
   /** Discord event metadata. */
   entity_metadata?: {
-    /** Event location, present when {@link entity_type} is {@link DiscordEventEntityType.SOMEWHERE_ELSE} */
+    /** Event location, present when {@link entity_type} is {@link EventEntityType.SOMEWHERE_ELSE} */
     location?: string;
-    /** , present when {@link entity_type} is {@link DiscordEventEntityType.STAGE_CHANNEL} */
+    /** , present when {@link entity_type} is {@link EventEntityType.STAGE_CHANNEL} */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     speaker_ids?: any[];
   } | null;
 }
 
-export interface IDiscordEvent extends ICreateEventRequestData {
+export interface IEvent extends ICreateEventRequestData {
   /** Unique event id. */
   id: string;
   /** Discord guild/server associated with the event. */
@@ -60,8 +60,8 @@ export interface IDiscordEvent extends ICreateEventRequestData {
   /** TDB. Always seems to be null. */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   image: any | null;
-  /** Discord event status. {@link DiscordEventStatus} */
-  status: DiscordEventStatus;
+  /** Discord event status. {@link EventStatus} */
+  status: EventStatus;
   /** TBD. Seems to always be null. */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   entity_id: any | null;
@@ -73,12 +73,12 @@ export interface IDiscordEvent extends ICreateEventRequestData {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   skus: any[];
 }
-export interface IDiscordEventWithUserCount extends IDiscordEvent {
+export interface IEventWithUserCount extends IEvent {
   /** Available when passing with_user_count query string parameter. */
   user_count: number;
 }
 
-export type ICreatePatchEventResponse = Omit<IDiscordEvent, "skus">;
+export type ICreatePatchEventResponse = Omit<IEvent, "skus">;
 export type IDeleteEventResponse = Record<string, never>;
 
 export interface IGetEventsParams {
@@ -95,6 +95,16 @@ export interface IDeleteEventParams {
 
 export interface IPatchEventParams extends ICreateEventParams {
   id: string;
+}
+
+export enum ChannelType {
+  GUILD_VOICE = 2,
+  GUILD_STAGE_VOICE = 13,
+}
+
+export interface IBaseChannel {
+  id: string;
+  type: number;
 }
 
 /**
@@ -126,17 +136,15 @@ export class DiscordClient {
    */
   public async getEvents<O extends IGetEventsParams>(
     params: O
-  ): Promise<O extends { withUserCount: true } ? IDiscordEventWithUserCount[] : IDiscordEvent[]> {
+  ): Promise<O extends { withUserCount: true } ? IEventWithUserCount[] : IEvent[]> {
     try {
       return (
-        await this._apiClient.get<O extends { withUserCount: true } ? IDiscordEventWithUserCount[] : IDiscordEvent[]>(
+        await this._apiClient.get<O extends { withUserCount: true } ? IEventWithUserCount[] : IEvent[]>(
           `/guilds/${this._config.guildId}/events?with_user_count=${params.withUserCount}`
         )
       ).data;
     } catch (e) {
-      logger.error(
-        `Error getting events from discord. Response: ${JSON.stringify((e as AxiosError).response?.data)}`
-      );
+      logger.error(`Error getting events from discord. Response: ${JSON.stringify((e as AxiosError).response?.data)}`);
       throw e;
     }
   }
@@ -160,9 +168,9 @@ export class DiscordClient {
       ).data;
     } catch (e) {
       logger.error(
-        `Error creating event in discord. Event information ${JSON.stringify(
-          eventData
-        )}. Response: ${JSON.stringify((e as AxiosError).response?.data)}`
+        `Error creating event in discord. Event information ${JSON.stringify(eventData)}. Response: ${JSON.stringify(
+          (e as AxiosError).response?.data
+        )}`
       );
       throw e;
     }
@@ -206,10 +214,26 @@ export class DiscordClient {
       ).data;
     } catch (e) {
       logger.error(
-        `Error patching event in discord. Event id: ${id}. Response: ${JSON.stringify(
-          eventData
-        )}. Error message: ${(e as AxiosError).response?.data}`
+        `Error patching event in discord. Event id: ${id}. Event information: ${JSON.stringify(eventData)}. Response: ${
+          (e as AxiosError).response?.data
+        }`
       );
+      throw e;
+    }
+  }
+
+  /**
+   * Get channels on a Discord server.
+   * @throws Will throw error if HTTP request was not successful.
+   * @returns Array of pruned channels (id, type) if successful
+   */
+  public async getChannels(): Promise<IBaseChannel[]> {
+    try {
+      return (await this._apiClient.get<IBaseChannel[]>(`/guild/${this._config.guildId}/channels`)).data.map(
+        ({ id, type }): IBaseChannel => ({ id, type })
+      );
+    } catch (e) {
+      logger.error(`Error getting channels from discord. Response: ${(e as AxiosError).response?.data}`);
       throw e;
     }
   }
