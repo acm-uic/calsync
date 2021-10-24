@@ -73,6 +73,13 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.0.tgz#87de7af9c231826fdd68ac7258f77c429e0e5fcf"
   integrity sha512-wdppn25U8z/2yiaT6YGquE6X8sSv7hNMWSXYSSU1jGv/yd6XqjXgTDJ8KP4NgjTXfJ3GbRjeeb8RTV7a/VpM+w==
 
+"@maxim_mazurok/gapi.client.calendar@latest":
+  version "3.0.20211007"
+  resolved "https://registry.yarnpkg.com/@maxim_mazurok/gapi.client.calendar/-/gapi.client.calendar-3.0.20211007.tgz#789f1fe123186a2a0704e9fbd5911c5dd2d0cd77"
+  integrity sha512-2lKGWEY0MB+c2nIq/bR5odY2/p1iQ6nLWq4XaxuPbdrMonm2lLL9o36gLahF9Ra+333hU0y4a+/M+tQjLkUM5w==
+  dependencies:
+    "@types/gapi.client" "*"
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
@@ -125,6 +132,18 @@
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@tsconfig/node16/-/node16-1.0.2.tgz#423c77877d0569db20e1fc80885ac4118314010e"
   integrity sha512-eZxlbI8GZscaGS7kkc/trHTT5xgrjH3/1n2JDwusC9iahPKWMRvRjJSAN5mCXviuTGQ/lHnhvv8Q1YTpnfz9gA==
+
+"@types/gapi.client.calendar@^3.0.10":
+  version "3.0.10"
+  resolved "https://registry.yarnpkg.com/@types/gapi.client.calendar/-/gapi.client.calendar-3.0.10.tgz#4b089d9af2753a07cf1d46adc83b1a7cedb8e355"
+  integrity sha512-NUStEVbHPOhFsw4cWE2CThe5eKpTlmz+fSu8mvEc7j+IDVNgk1kS4C6hZzBCdlIjFfOzdQM3Cyqkt5kt7ze3kA==
+  dependencies:
+    "@maxim_mazurok/gapi.client.calendar" latest
+
+"@types/gapi.client@*":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@types/gapi.client/-/gapi.client-1.0.5.tgz#a6eb97e664fe51656c5b52258bd0afef28c76308"
+  integrity sha512-OTpbBMuzfC4lkvaomxqskI/iWRGW3zOZbDXZLNSyiuswTiSSGgILRLkg0POuZ4EgzEdaYaTlXpnXiCp07ri/Yw==
 
 "@types/json-schema@^7.0.7":
   version "7.0.9"
