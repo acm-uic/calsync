@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Build PR and Deploy
+    name: Build
     steps:
       - name: Checkout repo 🛎
         uses: actions/checkout@v3
