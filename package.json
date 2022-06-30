@@ -1,16 +1,16 @@
 {
-  "name": "discord-events-sync",
+  "name": "calsync",
   "version": "1.0.0",
   "license": "MIT",
   "author": "Bharat Middha <5100938+bmiddha@users.noreply.github.com>",
-  "repository": "https://github.com/acm-uic/discord-events-sync.git",
-  "main": "index.js",
+  "repository": "https://github.com/acm-uic/calsync.git",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc -w",
     "dev": "nodemon --exec ts-node src/index.ts",
-    "format": "prettier --list-different src/**/*.ts *.js *.json && prettier-package-json --list-different --tab-width 2 --use-tabs false package.json",
-    "format:fix": "prettier --write src/**/*.ts *.js *.json && prettier-package-json --write --tab-width 2 --use-tabs false package.json",
+    "format": "prettier --list-different src/**/*.ts *.js *.json",
+    "format:fix": "prettier --write src/**/*.ts *.js *.json",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "yarn lint --fix",
     "prepare": "husky install",
@@ -18,22 +18,21 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "axios": "^0.23.0",
-    "winston": "^3.3.3"
+    "axios": "0.27.2",
+    "winston": "3.8.0"
   },
   "devDependencies": {
-    "@tsconfig/node14": "^1.0.1",
-    "@types/gapi.client.calendar": "^3.0.10",
-    "@types/node": "^16.11.0",
-    "@typescript-eslint/eslint-plugin": "^5.0.0",
-    "@typescript-eslint/parser": "^5.0.0",
-    "eslint": "^8.0.1",
-    "eslint-config-prettier": "^8.3.0",
-    "husky": "^7.0.2",
-    "nodemon": "^2.0.13",
-    "prettier": "^2.4.1",
-    "prettier-package-json": "^2.6.0",
-    "ts-node": "^10.3.0",
-    "typescript": "^4.4.4"
+    "@tsconfig/node18-strictest": "1.0.0",
+    "@types/gapi.client.calendar": "3.0.10",
+    "@types/node": "18.0.0",
+    "@typescript-eslint/eslint-plugin": "5.30.0",
+    "@typescript-eslint/parser": "5.30.0",
+    "eslint": "8.18.0",
+    "eslint-config-prettier": "8.5.0",
+    "husky": "8.0.1",
+    "nodemon": "2.0.18",
+    "prettier": "2.7.1",
+    "ts-node": "10.8.1",
+    "typescript": "4.7.4"
   }
 }

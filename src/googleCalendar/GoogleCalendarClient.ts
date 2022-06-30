@@ -67,7 +67,9 @@ export class GoogleCalendarClient {
       ).data;
       return calendarResponse;
     } catch (e) {
-      logger.error(`Error getting events from Google Calendar API. Response: ${(e as AxiosError).response?.data}`);
+      logger.error(`Error getting events from Google Calendar API. Response: ${(e as AxiosError).response?.data}`, {
+        service: "GoogleCalendarClient",
+      });
       throw e;
     }
   }
