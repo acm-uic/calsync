@@ -1,0 +1,43 @@
+name: ci
+
+on:
+  schedule:
+    # 12 PM UTC every day
+    - cron: 0 12 * * *
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build PR and Deploy
+    steps:
+      - name: Checkout repo 🛎
+        uses: actions/checkout@v3
+
+      - name: Use Node 18.x 🔧
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+          cache: "yarn"
+
+      - name: Install Dependencies 📦
+        run: |
+          yarn install
+
+      - name: Run linters and formatter checks 🚨
+        run: |
+          yarn lint
+          yarn format
+
+      - name: Test Build 🚧
+        run: yarn build
+
+      - name: Run sync ➡️⬅️
+        run: yarn start
+        env:
+          DISCORD_EVENTS_SYNC_DISCORD_GUILD_ID: ${{ secrets.DISCORD_EVENTS_SYNC_DISCORD_GUILD_ID }}
+          DISCORD_EVENTS_SYNC_DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_EVENTS_SYNC_DISCORD_BOT_TOKEN }}
+          DISCORD_EVENTS_SYNC_DISCORD_APPLICATION_ID: ${{ secrets.DISCORD_EVENTS_SYNC_DISCORD_APPLICATION_ID }}
+          DISCORD_EVENTS_SYNC_GOOGLE_CALENDAR_CALENDAR_ID: ${{ secrets.DISCORD_EVENTS_SYNC_GOOGLE_CALENDAR_CALENDAR_ID }}
+          DISCORD_EVENTS_SYNC_GOOGLE_CALENDAR_API_KEY: ${{ secrets.DISCORD_EVENTS_SYNC_GOOGLE_CALENDAR_API_KEY }}
