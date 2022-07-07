@@ -94,7 +94,7 @@ export interface IGetEventUsersParams {
 }
 export interface IEventUser {
   user: IDiscordUser;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // deno-lint-ignore no-explicit-any
   member?: any;
   guild_scheduled_event_id: string;
 }

@@ -28,10 +28,10 @@ export class LocalDb {
         this._db.events = {};
       }
       logger.info(
-        `Found ${
-          Object.keys(this._db.events).length
-        } events in ${this._filePath}`,
-        { service: "LocalDb" },
+        `Found ${Object.keys(this._db.events).length} events in ${
+          this._filePath
+        }`,
+        { service: "LocalDb" }
       );
     } catch (e) {
       logger.error(`Failed to parse local db. Path: ${this._filePath}`, {
@@ -51,7 +51,7 @@ export class LocalDb {
       logger.info(`Successfully written to ${this._filePath}`, {
         service: "LocalDb",
       });
-    } catch (e) {
+    } catch (_) {
       logger.error(`Failed to write to local db. Path: ${this._filePath}`, {
         service: "LocalDb",
       });

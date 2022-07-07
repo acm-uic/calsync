@@ -5,7 +5,7 @@ import "dotenv/config";
 const ENVIRONMENT_VARIABLE_PREFIX = "DISCORD_EVENTS_SYNC_";
 
 export class EnvConfigError extends Error {
-  public override name: string = "EnvConfigError";
+  public override name = "EnvConfigError";
   public constructor(message: string = "") {
     super(message);
   }
@@ -20,7 +20,7 @@ const getEnv = (name: string, fallback?: string) => {
   if (fallback) {
     logger.info(
       `Environment {${envName}} not found. Using fallback value: ${fallback}.`,
-      { service: "getEnv" },
+      { service: "getEnv" }
     );
     return fallback;
   }

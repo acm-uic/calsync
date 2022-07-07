@@ -53,7 +53,7 @@ export class EventSync {
     this._syncDateRange = syncDateRange;
   }
 
-  private async _getDiscordEvents() {
+  private _getDiscordEvents() {
     return this._discordEventsClient.getEvents({ with_user_count: false });
   }
 
