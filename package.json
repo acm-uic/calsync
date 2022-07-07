@@ -25,7 +25,7 @@
   "devDependencies": {
     "@tsconfig/node18-strictest": "1.0.0",
     "@types/gapi.client.calendar": "3.0.10",
-    "@types/node": "18.0.1",
+    "@types/node": "18.0.3",
     "@typescript-eslint/eslint-plugin": "5.30.5",
     "@typescript-eslint/parser": "5.30.5",
     "eslint": "8.19.0",
