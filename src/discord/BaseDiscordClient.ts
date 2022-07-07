@@ -31,22 +31,32 @@ export abstract class BaseDiscordClient {
     this._apiClient = axios.create({
       baseURL: `${DISCORD_API_BASE_URL}${this._config.basePath}`,
     });
-    this._apiClient.defaults.headers.common["Content-Type"] = "application/json";
-    this._apiClient.defaults.headers.common["Authorization"] = `Bot ${this._config.botToken}`;
+    this._apiClient.defaults.headers.common["Content-Type"] =
+      "application/json";
+    this._apiClient.defaults.headers.common["Authorization"] =
+      `Bot ${this._config.botToken}`;
     this._apiClient.interceptors.response.use(
       (response) => response,
       async (error: AxiosError) => {
-        const rateLimitResetAfter = error?.response?.headers?.["x-ratelimit-reset-after"];
+        const rateLimitResetAfter = error?.response?.headers
+          ?.["x-ratelimit-reset-after"];
         const status = error?.response?.status;
         const config = error?.config;
-        if (status === 429 && config !== undefined && rateLimitResetAfter !== undefined) {
-          logger.warn(`Request rate limited. Retrying after ${rateLimitResetAfter} seconds.`);
-          await new Promise((resolve) => setTimeout(resolve, parseFloat(rateLimitResetAfter) * 1000 + 1000));
+        if (
+          status === 429 && config !== undefined &&
+          rateLimitResetAfter !== undefined
+        ) {
+          logger.warn(
+            `Request rate limited. Retrying after ${rateLimitResetAfter} seconds.`,
+          );
+          await new Promise((resolve) =>
+            setTimeout(resolve, parseFloat(rateLimitResetAfter) * 1000 + 1000)
+          );
           return this._apiClient.request(error.config);
         } else {
           throw error;
         }
-      }
+      },
     );
   }
 

@@ -18,7 +18,10 @@ const getEnv = (name: string, fallback?: string) => {
     return value;
   }
   if (fallback) {
-    logger.info(`Environment {${envName}} not found. Using fallback value: ${fallback}.`, { service: "getEnv" });
+    logger.info(
+      `Environment {${envName}} not found. Using fallback value: ${fallback}.`,
+      { service: "getEnv" },
+    );
     return fallback;
   }
   const message = `Environment {${envName}} not found.`;
@@ -33,7 +36,10 @@ const loadEnvConfig = () => {
       botToken: getEnv("DISCORD_BOT_TOKEN"),
       applicationId: getEnv("DISCORD_APPLICATION_ID"),
     },
-    googleCalendar: { calendarId: getEnv("GOOGLE_CALENDAR_CALENDAR_ID"), apiKey: getEnv("GOOGLE_CALENDAR_API_KEY") },
+    googleCalendar: {
+      calendarId: getEnv("GOOGLE_CALENDAR_CALENDAR_ID"),
+      apiKey: getEnv("GOOGLE_CALENDAR_API_KEY"),
+    },
   };
   return config;
 };

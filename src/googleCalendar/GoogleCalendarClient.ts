@@ -33,7 +33,9 @@ export class GoogleCalendarClient {
   public constructor({ calendarId, apiKey }: IGoogleCalendarClientParams) {
     this._apiKey = apiKey;
     this._calendarId = calendarId;
-    this._apiClient = axios.create({ baseURL: "https://content.googleapis.com/calendar/v3" });
+    this._apiClient = axios.create({
+      baseURL: "https://content.googleapis.com/calendar/v3",
+    });
     this._apiClient.defaults.headers.common["Referer"] = "discord-events-sync";
     this._apiClient.defaults.params = {};
     this._apiClient.defaults.params["key"] = this._apiKey;
@@ -61,15 +63,22 @@ export class GoogleCalendarClient {
         orderBy,
       };
       const calendarResponse = (
-        await this._apiClient.get<ICalendarEventsResponse>(`/calendars/${this._calendarId}/events`, {
-          params: calendarRequestParams,
-        })
+        await this._apiClient.get<ICalendarEventsResponse>(
+          `/calendars/${this._calendarId}/events`,
+          {
+            params: calendarRequestParams,
+          },
+        )
       ).data;
       return calendarResponse;
     } catch (e) {
-      logger.error(`Error getting events from Google Calendar API. Response: ${(e as AxiosError).response?.data}`, {
-        service: "GoogleCalendarClient",
-      });
+      logger.error(
+        `Error getting events from Google Calendar API. Response: ${(e as AxiosError)
+          .response?.data}`,
+        {
+          service: "GoogleCalendarClient",
+        },
+      );
       throw e;
     }
   }

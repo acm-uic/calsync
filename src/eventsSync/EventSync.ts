@@ -1,13 +1,17 @@
 import {
-  EventEntityType,
   DiscordEventsClient,
+  EventEntityType,
+  EventPrivacyLevel,
   ICreateEventRequestData,
   IEntityMetadata,
-  IPatchEventRequestData,
-  EventPrivacyLevel,
   IEvent,
+  IPatchEventRequestData,
 } from "../discord/DiscordEventsClient";
-import { DiscordChannelsClient, IBaseChannel, ChannelType } from "../discord/DiscordChannelsClient";
+import {
+  ChannelType,
+  DiscordChannelsClient,
+  IBaseChannel,
+} from "../discord/DiscordChannelsClient";
 import type {
   GoogleCalendarClient,
   ICalendarEvent,
@@ -54,9 +58,12 @@ export class EventSync {
   }
 
   private _calendarToDiscordEvent = (
-    calEvent: ICalendarEvent
+    calEvent: ICalendarEvent,
   ): IPatchEventRequestData | ICreateEventRequestData | undefined => {
-    const parseDates = (start: ICalendarEventDateTime, end: ICalendarEventDateTime) => {
+    const parseDates = (
+      start: ICalendarEventDateTime,
+      end: ICalendarEventDateTime,
+    ) => {
       let startParsed: Date | undefined = undefined;
       let endParsed: Date | undefined = undefined;
       if (start.date && end.date) {
@@ -69,23 +76,36 @@ export class EventSync {
       }
       return [startParsed, endParsed];
     };
-    const parseEventLocation = (location: string): [EventEntityType | undefined, string | undefined] => {
+    const parseEventLocation = (
+      location: string,
+    ): [EventEntityType | undefined, string | undefined] => {
       if (!location.startsWith("Discord")) {
         return [EventEntityType.EXTERNAL, location.trim()];
       }
       if (location.startsWith("Discord Voice:")) {
-        return [EventEntityType.VOICE, location.split("Discord Voice:")[1]?.trim()];
+        return [
+          EventEntityType.VOICE,
+          location.split("Discord Voice:")[1]?.trim(),
+        ];
       }
       if (location.startsWith("Discord Stage:")) {
-        return [EventEntityType.STAGE_INSTANCE, location.split("Discord Stage:")[1]?.trim()];
+        return [
+          EventEntityType.STAGE_INSTANCE,
+          location.split("Discord Stage:")[1]?.trim(),
+        ];
       }
       return [undefined, undefined];
     };
     const getChannelId = (location: string) => {
-      return this._discordChannels?.find((c) => c.name.toLowerCase().includes(location.toLowerCase()))?.id;
+      return this._discordChannels?.find((c) =>
+        c.name.toLowerCase().includes(location.toLowerCase())
+      )?.id;
     };
 
-    if (!calEvent.id || !calEvent.summary || !calEvent.start || !calEvent.end || !calEvent.htmlLink) {
+    if (
+      !calEvent.id || !calEvent.summary || !calEvent.start || !calEvent.end ||
+      !calEvent.htmlLink
+    ) {
       return undefined;
     }
     const [startDate, endDate] = parseDates(calEvent.start, calEvent.end);
@@ -125,7 +145,9 @@ export class EventSync {
         }
         break;
     }
-    const description: string = `${calEvent.description ?? ""}\nCalendar event link: ${calEvent.htmlLink}`.trim();
+    const description: string = `${
+      calEvent.description ?? ""
+    }\nCalendar event link: ${calEvent.htmlLink}`.trim();
 
     const discordEventData: ICreateEventRequestData | IPatchEventRequestData = {
       name: calEvent.summary,
@@ -145,7 +167,9 @@ export class EventSync {
     const getDiscordChannels = async () => {
       const discordChannels = await this._discordChannelsClient.getChannels();
       const voiceStageChannels = discordChannels.filter(
-        (c) => c.type === ChannelType.GUILD_STAGE_VOICE || c.type === ChannelType.GUILD_VOICE
+        (c) =>
+          c.type === ChannelType.GUILD_STAGE_VOICE ||
+          c.type === ChannelType.GUILD_VOICE,
       );
       return voiceStageChannels;
     };
@@ -167,9 +191,11 @@ export class EventSync {
 
     const compareEvents = (
       event1: ICreateEventRequestData | IPatchEventRequestData | IEvent,
-      event2: ICreateEventRequestData | IPatchEventRequestData | IEvent
+      event2: ICreateEventRequestData | IPatchEventRequestData | IEvent,
     ): boolean => {
-      const normalizeDate = (dateStr: string | null) => (dateStr ? new Date(dateStr).getTime() : undefined);
+      const normalizeDate = (
+        dateStr: string | null,
+      ) => (dateStr ? new Date(dateStr).getTime() : undefined);
       if (
         event1.name !== event2.name ||
         event1.description !== event2.description ||
@@ -177,8 +203,10 @@ export class EventSync {
         event1.privacy_level !== event2.privacy_level ||
         event1.entity_type !== event2.entity_type ||
         event1.entity_metadata?.location !== event2.entity_metadata?.location ||
-        normalizeDate(event1.scheduled_end_time) !== normalizeDate(event2.scheduled_end_time) ||
-        normalizeDate(event1.scheduled_start_time) !== normalizeDate(event2.scheduled_start_time)
+        normalizeDate(event1.scheduled_end_time) !==
+          normalizeDate(event2.scheduled_end_time) ||
+        normalizeDate(event1.scheduled_start_time) !==
+          normalizeDate(event2.scheduled_start_time)
       ) {
         return false;
       }
@@ -190,10 +218,14 @@ export class EventSync {
     const gCalEvents = await getCalendarEvents();
 
     // filter events created by the bot
-    const discordEvents = (await this._getDiscordEvents()).filter((e) => e.creator_id === this._discordApplicationId);
+    const discordEvents = (await this._getDiscordEvents()).filter((e) =>
+      e.creator_id === this._discordApplicationId
+    );
 
     if (gCalEvents) {
-      logger.info(`Received ${gCalEvents.length} calendar events.`, { service: "EventSync" });
+      logger.info(`Received ${gCalEvents.length} calendar events.`, {
+        service: "EventSync",
+      });
       if (gCalEvents.length === 0) {
         return;
       }
@@ -209,26 +241,35 @@ export class EventSync {
           }
 
           const existingDiscordEvent = discordEvents.find(
-            (discordEvent) => calEvent.htmlLink !== undefined && discordEvent.description.endsWith(calEvent.htmlLink)
+            (discordEvent) =>
+              calEvent.htmlLink !== undefined &&
+              discordEvent.description.endsWith(calEvent.htmlLink),
           );
           if (existingDiscordEvent) {
             if (compareEvents(discordEvent, existingDiscordEvent)) {
               discordEventsProcessed[existingDiscordEvent.id] = true;
-              logger.info(`${existingDiscordEvent.id}: Event skipped; No update needed.`, { service: "EventSync" });
+              logger.info(
+                `${existingDiscordEvent.id}: Event skipped; No update needed.`,
+                { service: "EventSync" },
+              );
               continue;
             } else {
               const response = await this._discordEventsClient.patchEvent({
                 id: existingDiscordEvent.id,
                 eventData: discordEvent as IPatchEventRequestData,
               });
-              logger.info(`${response.id}: Event updated.`, { service: "EventSync" });
+              logger.info(`${response.id}: Event updated.`, {
+                service: "EventSync",
+              });
               discordEventsProcessed[response.id] = true;
             }
           } else {
             const response = await this._discordEventsClient.createEvent({
               eventData: discordEvent as ICreateEventRequestData,
             });
-            logger.info(`${response.id}: Event created.`, { service: "EventSync" });
+            logger.info(`${response.id}: Event created.`, {
+              service: "EventSync",
+            });
             discordEventsProcessed[response.id] = true;
           }
           await discordApiTimeout();
@@ -240,15 +281,19 @@ export class EventSync {
           } else {
             // delete all other events
             await this._discordEventsClient.deleteEvent({ id: event.id });
-            logger.info(`${event.id}: Event deleted.`, { service: "EventSync" });
+            logger.info(`${event.id}: Event deleted.`, {
+              service: "EventSync",
+            });
             await discordApiTimeout();
           }
         }
         logger.info("Done processing events.", { service: "EventSync" });
       } catch (e) {
         logger.error(
-          `Error while processing events. Error message: ${(e as Error).message}, Error: ${JSON.stringify(e)}.`,
-          { service: "EventSync" }
+          `Error while processing events. Error message: ${
+            (e as Error).message
+          }, Error: ${JSON.stringify(e)}.`,
+          { service: "EventSync" },
         );
       }
     }

@@ -3,7 +3,10 @@
  */
 
 import type { AxiosError } from "axios";
-import { BaseDiscordClient, IBaseDiscordClientParams } from "./BaseDiscordClient";
+import {
+  BaseDiscordClient,
+  IBaseDiscordClientParams,
+} from "./BaseDiscordClient";
 
 export enum EventEntityType {
   STAGE_INSTANCE = 1,
@@ -46,7 +49,9 @@ export type ICreateEventRequestData = Pick<
   | "entity_type"
 >;
 
-export type IPatchEventRequestData = Pick<IEvent, "status"> & ICreateEventRequestData;
+export type IPatchEventRequestData =
+  & Pick<IEvent, "status">
+  & ICreateEventRequestData;
 
 export interface IEvent {
   /** the name of the scheduled event (1-100 characters) */
@@ -125,7 +130,11 @@ export interface IPatchEventParams {
  */
 export class DiscordEventsClient extends BaseDiscordClient {
   public constructor(config: IBaseDiscordClientParams) {
-    super({ ...config, basePath: `/guilds/${config.guildId}/scheduled-events`, name: "DiscordEventsClient" });
+    super({
+      ...config,
+      basePath: `/guilds/${config.guildId}/scheduled-events`,
+      name: "DiscordEventsClient",
+    });
   }
 
   /**
@@ -136,17 +145,24 @@ export class DiscordEventsClient extends BaseDiscordClient {
    * @returns Array of events if successful
    */
   public async getEvents<O extends IGetEventsParams>(
-    params: O
-  ): Promise<O extends { withUserCount: false } ? Omit<IEvent, "user_count">[] : IEvent[]> {
+    params: O,
+  ): Promise<
+    O extends { withUserCount: false } ? Omit<IEvent, "user_count">[] : IEvent[]
+  > {
     try {
       return (
-        await this._apiClient.get<O extends { withUserCount: false } ? Omit<IEvent, "user_count">[] : IEvent[]>("", {
+        await this._apiClient.get<
+          O extends { withUserCount: false } ? Omit<IEvent, "user_count">[]
+            : IEvent[]
+        >("", {
           params,
         })
       ).data;
     } catch (e) {
       this._logError(
-        `Error getting events from discord. Response: ${JSON.stringify((e as AxiosError).response?.data)}`
+        `Error getting events from discord. Response: ${
+          JSON.stringify((e as AxiosError).response?.data)
+        }`,
       );
       throw e;
     }
@@ -158,15 +174,22 @@ export class DiscordEventsClient extends BaseDiscordClient {
    * @param params Event information
    * @returns Event data if successful
    */
-  public async createEvent(params: ICreateEventParams): Promise<ICreateEventResponse> {
+  public async createEvent(
+    params: ICreateEventParams,
+  ): Promise<ICreateEventResponse> {
     const { eventData } = params;
     try {
-      return (await this._apiClient.post<ICreateEventResponse>("", eventData)).data;
+      return (await this._apiClient.post<ICreateEventResponse>("", eventData))
+        .data;
     } catch (e) {
       this._logError(
-        `Error creating event in discord. Event information ${JSON.stringify(eventData)}. Response: ${JSON.stringify(
-          (e as AxiosError).response?.data
-        )}`
+        `Error creating event in discord. Event information ${
+          JSON.stringify(eventData)
+        }. Response: ${
+          JSON.stringify(
+            (e as AxiosError).response?.data,
+          )
+        }`,
       );
       throw e;
     }
@@ -178,13 +201,17 @@ export class DiscordEventsClient extends BaseDiscordClient {
    * @param params Event ID to delete
    * @returns Blank response if successful. Status 204.
    */
-  public async deleteEvent(params: IDeleteEventParams): Promise<IDeleteEventResponse> {
+  public async deleteEvent(
+    params: IDeleteEventParams,
+  ): Promise<IDeleteEventResponse> {
     const { id } = params;
     try {
       return (await this._apiClient.delete<IDeleteEventResponse>(id)).data;
     } catch (e) {
       this._logError(
-        `Error deleting event in discord. Event id ${id}. Response: ${JSON.stringify((e as AxiosError).response?.data)}`
+        `Error deleting event in discord. Event id ${id}. Response: ${
+          JSON.stringify((e as AxiosError).response?.data)
+        }`,
       );
       throw e;
     }
@@ -196,15 +223,18 @@ export class DiscordEventsClient extends BaseDiscordClient {
    * @param params Event ID to patch and updated event information
    * @returns Event data if successful
    */
-  public async patchEvent(params: IPatchEventParams): Promise<IPatchEventResponse> {
+  public async patchEvent(
+    params: IPatchEventParams,
+  ): Promise<IPatchEventResponse> {
     const { id, eventData } = params;
     try {
-      return (await this._apiClient.patch<IPatchEventResponse>(id, eventData)).data;
+      return (await this._apiClient.patch<IPatchEventResponse>(id, eventData))
+        .data;
     } catch (e) {
       this._logError(
-        `Error patching event in discord. Event id: ${id}. Event information: ${JSON.stringify(eventData)}. Response: ${
-          (e as AxiosError).response?.data
-        }`
+        `Error patching event in discord. Event id: ${id}. Event information: ${
+          JSON.stringify(eventData)
+        }. Response: ${(e as AxiosError).response?.data}`,
       );
       throw e;
     }
