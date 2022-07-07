@@ -7,7 +7,7 @@ import logger from "./util/logger";
 
 logger.info("App Boot");
 
-const A_MONTH = 1000 * 3600 * 24 * 30;
+const A_WEEK = 1000 * 3600 * 24 * 7;
 
 const envConfig = loadEnvConfig();
 const discordChannelsClient = new DiscordChannelsClient(envConfig.discord);
@@ -21,6 +21,6 @@ new EventSync({
   discordApplicationId: envConfig.discord.applicationId,
   syncDateRange: {
     from: new Date(),
-    to: new Date(Date.now() + A_MONTH),
+    to: new Date(Date.now() + A_WEEK),
   },
 }).sync();
