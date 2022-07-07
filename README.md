@@ -2,7 +2,7 @@
 
 [![ci](https://github.com/acm-uic/calsync/actions/workflows/ci.yml/badge.svg)](https://github.com/acm-uic/calsync/actions/workflows/ci.yml) [![sync](https://github.com/acm-uic/calsync/actions/workflows/sync.yml/badge.svg)](https://github.com/acm-uic/calsync/actions/workflows/sync.yml)
 
-🔄 Sync Google Calendar events to Discord Scheduled Events.
+🔁 Sync Google Calendar events to Discord Scheduled Events.
 
 🤖 Designed to run as a scheduled job in GitHub Actions.
 

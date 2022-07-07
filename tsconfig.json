@@ -2,7 +2,7 @@
   "extends": "@tsconfig/node18-strictest",
   "include": ["src/"],
   "compilerOptions": {
-    "outDir": "dist/",
+    "outDir": "build/",
     "sourceMap": true
   }
 }

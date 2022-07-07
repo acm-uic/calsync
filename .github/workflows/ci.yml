@@ -16,15 +16,23 @@ jobs:
         with:
           node-version: "18.x"
           cache: "yarn"
-          
+
       - name: Install Dependencies 📦
-        run: |
-          yarn install
+        run: yarn install
 
       - name: Run linters and formatter checks 🚨
         run: |
           yarn lint
-          yarn format 
+          yarn format
 
       - name: Test Build 🚧
         run: yarn build
+
+      - name: Package 📦
+        run: yarn pkg -t node18-linux-x64 -o dist/calsync-node18-linux-x64 build/index.js
+
+      - name: Upload artifact ⬆️
+        uses: actions/upload-artifact@v3
+        with:
+          name: calsync-node18-linux-x64
+          path: dist/calsync-node18-linux-x64
