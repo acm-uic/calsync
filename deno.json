@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "strict": true
+  },
+  "fmt": {
+    "options": {
+      "indentWidth": 2,
+      "lineWidth": 120,
+      "singleQuote": false,
+      "useTabs": false
+    }
+  }
+}

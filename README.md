@@ -9,17 +9,15 @@
 
 ## How does it work?
 
-The program fetches upcoming events using the Google Calendar API and then
-create or updates (events are mapped using the Google calendar event link in the
-Discord event's description) events if necessary.
+The program fetches upcoming events using the Google Calendar API and then create or updates (events are mapped using
+the Google calendar event link in the Discord event's description) events if necessary.
 
 The remaining events in Discord that were created by the bot are removed.
 
 ## Configuring
 
-Refer to [.env.example](.env.example) for configuration options. Configuration
-can be set either in system environment variables or in `.env.` file in the root
-of the repository.
+Refer to [.env.example](.env.example) for configuration options. Configuration can be set either in system environment
+variables or in `.env.` file in the root of the repository.
 
 ## Discord bot permissions
 

@@ -2,6 +2,16 @@
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
   "editor.detectIndentation": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.rulers": [120]
+  "editor.defaultFormatter": "denoland.vscode-deno",
+  "[typescript][javascript][json][jsonc][markdown]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "deno.enable": true,
+  "deno.config": "./deno.json",
+  "deno.suggest.imports.hosts": {
+    "https://deno.land": true
+  },
+  "editor.rulers": [
+    120
+  ]
 }
