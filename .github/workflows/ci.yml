@@ -26,7 +26,7 @@ jobs:
         run: deno compile --allow-net --allow-env --allow-read --target x86_64-unknown-linux-gnu -o dist/calsync-x86_64-unknown-linux-gnu mod.ts
 
       - name: Upload artifact ⬆️
-        if: github.ref == 'main'
+        if: github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v3
         with:
           name: calsync-x86_64-unknown-linux-gnu
