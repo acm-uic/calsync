@@ -1,8 +1,0 @@
-{
-  "extends": "@tsconfig/node18-strictest",
-  "include": ["src/"],
-  "compilerOptions": {
-    "outDir": "build/",
-    "sourceMap": true
-  }
-}

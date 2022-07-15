@@ -11,16 +11,3 @@ updates:
       - ":robot: bot"
     commit-message:
       prefix: ":arrow_up:"
-
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "daily"
-      time: "07:00"
-      timezone: "America/Chicago"
-    labels:
-      - ":package: dependencies"
-      - ":robot: bot"
-    commit-message:
-      prefix: ":arrow_up:"
-    versioning-strategy: increase

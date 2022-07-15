@@ -11,28 +11,23 @@ jobs:
       - name: Checkout repo 🛎
         uses: actions/checkout@v3
 
-      - name: Use Node 18.x 🔧
-        uses: actions/setup-node@v3
+      - name: Setup Deno 🔧
+        uses: denoland/setup-deno@v1
         with:
-          node-version: "18.x"
-          cache: "yarn"
-
-      - name: Install Dependencies 📦
-        run: yarn install
+          deno-version: v1.x
 
       - name: Run linters and formatter checks 🚨
         run: |
-          yarn lint
-          yarn format
-
-      - name: Test Build 🚧
-        run: yarn build
+          deno lint
+          deno fmt --check
+          deno check mod.ts
 
       - name: Package 📦
-        run: yarn pkg -t node18-linux-x64 -o dist/calsync-node18-linux-x64 build/index.js
+        run: deno compile --allow-net --allow-env --allow-read --target x86_64-unknown-linux-gnu -o dist/calsync-x86_64-unknown-linux-gnu mod.ts
 
       - name: Upload artifact ⬆️
+        if: github.ref == 'main'
         uses: actions/upload-artifact@v3
         with:
-          name: calsync-node18-linux-x64
-          path: dist/calsync-node18-linux-x64
+          name: calsync-x86_64-unknown-linux-gnu
+          path: dist/calsync-x86_64-unknown-linux-gnu

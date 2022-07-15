@@ -13,14 +13,14 @@ jobs:
     name: sync
     steps:
       - name: Download artifact ⬇️
-        run: gh run download -n calsync-node18-linux-x64 --repo ${{ github.repository }}
+        run: gh run download -n calsync-x86_64-unknown-linux-gnu --repo ${{ github.repository }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run sync 🔁
         run: |
-          chmod +x calsync-node18-linux-x64
-          ./calsync-node18-linux-x64
+          chmod +x calsync-x86_64-unknown-linux-gnu
+          ./calsync-x86_64-unknown-linux-gnu
         env:
           DISCORD_EVENTS_SYNC_DISCORD_GUILD_ID: ${{ secrets.DISCORD_EVENTS_SYNC_DISCORD_GUILD_ID }}
           DISCORD_EVENTS_SYNC_DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_EVENTS_SYNC_DISCORD_BOT_TOKEN }}
