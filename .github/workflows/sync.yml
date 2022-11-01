@@ -18,10 +18,10 @@ jobs:
         continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Run CI ⚙️
         if: steps.download_artifact.outcome == 'failure'
-        uses: ./.github/workflows/ci.yml@main
+        uses: ${{ github.repository }}/.github/workflows/ci.yml@main
 
       - name: Download artifact ⬇️
         if: steps.download_artifact.outcome == 'failure'
