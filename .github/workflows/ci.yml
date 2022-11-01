@@ -2,13 +2,11 @@ name: ci
 
 on:
   push:
-  workflow_call:
-  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Build
+    name: build
     steps:
       - name: Checkout repo 🛎
         uses: actions/checkout@v3
@@ -25,13 +23,3 @@ jobs:
           deno lint
           deno fmt --check
           deno check mod.ts
-
-      - name: Package 📦
-        run: deno compile --allow-net --allow-env --allow-read --target x86_64-unknown-linux-gnu -o dist/calsync-x86_64-unknown-linux-gnu mod.ts
-
-      - name: Upload artifact ⬆️
-        if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_call'
-        uses: actions/upload-artifact@v3
-        with:
-          name: calsync-x86_64-unknown-linux-gnu
-          path: dist/calsync-x86_64-unknown-linux-gnu
