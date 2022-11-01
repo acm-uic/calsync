@@ -27,7 +27,7 @@ jobs:
 
       - name: Run CI ⚙️
         if: steps.download_artifact.outcome == 'failure'
-        uses: ./.github/workflows/ci.yml@main
+        uses: ./.github/workflows/ci.yml
 
       - name: Download artifact ⬇️
         if: steps.download_artifact.outcome == 'failure'
