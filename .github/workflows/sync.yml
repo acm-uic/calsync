@@ -4,7 +4,6 @@ on:
   schedule:
     # At minute 32 (picked randomly) past every 12th hour
     - cron: 32 */12 * * *
-  workflow_call:
   workflow_dispatch:
 
 jobs:
@@ -12,33 +11,18 @@ jobs:
     runs-on: ubuntu-latest
     name: sync
     steps:
-      - name: Download artifact ⬇️
-        run: gh run download -n calsync-x86_64-unknown-linux-gnu --repo ${{ github.repository }}
-        id: download_artifact
-        continue-on-error: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Checkout repo 🛎
-        if: steps.download_artifact.outcome == 'failure'
         uses: actions/checkout@v3
         with:
           ref: main
 
-      - name: Run CI ⚙️
-        if: steps.download_artifact.outcome == 'failure'
-        uses: ./.github/workflows/ci.yml
-
-      - name: Download artifact ⬇️
-        if: steps.download_artifact.outcome == 'failure'
-        run: gh run download -n calsync-x86_64-unknown-linux-gnu --repo ${{ github.repository }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Setup Deno 🔧
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
 
       - name: Run sync 🔁
-        run: |
-          chmod +x calsync-x86_64-unknown-linux-gnu
-          ./calsync-x86_64-unknown-linux-gnu
+        run: deno run --allow-net --allow-env --allow-read ./mod.ts
         env:
           DISCORD_EVENTS_SYNC_DISCORD_GUILD_ID: ${{ secrets.DISCORD_EVENTS_SYNC_DISCORD_GUILD_ID }}
           DISCORD_EVENTS_SYNC_DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_EVENTS_SYNC_DISCORD_BOT_TOKEN }}
