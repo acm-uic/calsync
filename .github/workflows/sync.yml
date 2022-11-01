@@ -14,6 +14,18 @@ jobs:
     steps:
       - name: Download artifact ⬇️
         run: gh run download -n calsync-x86_64-unknown-linux-gnu --repo ${{ github.repository }}
+        id: download_artifact
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Run CI ⚙️
+        if: steps.download_artifact.outcome == 'failure'
+        uses: ./.github/workflows/ci.yml@main
+
+      - name: Download artifact ⬇️
+        if: steps.download_artifact.outcome == 'failure'
+        run: gh run download -n calsync-x86_64-unknown-linux-gnu --repo ${{ github.repository }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
