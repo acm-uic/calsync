@@ -170,7 +170,7 @@ export class DiscordClient {
    */
   public async getChannels(): Promise<BaseChannel[]> {
     try {
-      const res = (await this.#fetch({ endpoint: `/guilds/${this.#guildId}/channels` }));
+      const res = await this.#fetch({ endpoint: `/guilds/${this.#guildId}/channels` });
       const parsed = await res.json() as BaseChannel[];
       return parsed.map(
         ({ id, type, name }): BaseChannel => ({ id, type, name }),
