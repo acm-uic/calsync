@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     name: sync
     steps:
-      - uses: bmiddha/calsync@main
+      - uses: acm-uic/calsync@main
         with:
           discord-guild-id: ${{ secrets.DISCORD_EVENTS_SYNC_DISCORD_GUILD_ID }}
           discord-bot-token: ${{ secrets.DISCORD_EVENTS_SYNC_DISCORD_BOT_TOKEN }}
