@@ -30,7 +30,6 @@ jobs:
           discord-application-id: ${{ secrets.DISCORD_APPLICATION_ID }}
           google-calendar-id: ${{ secrets.GOOGLE_CALENDAR_CALENDAR_ID }}
           google-api-key: ${{ secrets.GOOGLE_CALENDAR_API_KEY }}
-
 ```
 
 ## How does it work?
