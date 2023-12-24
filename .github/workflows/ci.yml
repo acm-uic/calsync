@@ -10,8 +10,6 @@ jobs:
     steps:
       - name: Checkout repo 🛎
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event_name == 'workflow_call' && 'main' || github.ref }}
 
       - name: Setup Deno 🔧
         uses: denoland/setup-deno@v1
