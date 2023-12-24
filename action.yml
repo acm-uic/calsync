@@ -1,0 +1,30 @@
+name: 'calsync'
+inputs:
+  discord-guild-id:
+    required: true
+  discord-bot-token:
+    required: true
+  discord-application-id:
+    required: true
+  google-calendar-id:
+    required: true
+  google-api-key:
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Deno 🔧
+      uses: denoland/setup-deno@v1
+      with:
+        deno-version: v1.x
+
+    - name: Run sync 🔁
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      run: deno run --allow-net --allow-env --allow-read ./mod.ts
+      env:
+        DISCORD_EVENTS_SYNC_DISCORD_GUILD_ID: ${{ inputs.discord-guild-id }}
+        DISCORD_EVENTS_SYNC_DISCORD_BOT_TOKEN: ${{ inputs.discord-bot-token }}
+        DISCORD_EVENTS_SYNC_DISCORD_APPLICATION_ID: ${{ inputs.discord-application-id }}
+        DISCORD_EVENTS_SYNC_GOOGLE_CALENDAR_CALENDAR_ID: ${{ inputs.google-calendar-id }}
+        DISCORD_EVENTS_SYNC_GOOGLE_CALENDAR_API_KEY: ${{ inputs.google-api-key }}

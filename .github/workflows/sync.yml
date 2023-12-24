@@ -11,21 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     name: sync
     steps:
-      - name: Checkout repo 🛎
-        uses: actions/checkout@v4
+      - uses: acm-uic/calsync@main
         with:
-          ref: main
-
-      - name: Setup Deno 🔧
-        uses: denoland/setup-deno@v1
-        with:
-          deno-version: v1.x
-
-      - name: Run sync 🔁
-        run: deno run --allow-net --allow-env --allow-read ./mod.ts
-        env:
-          DISCORD_EVENTS_SYNC_DISCORD_GUILD_ID: ${{ secrets.DISCORD_EVENTS_SYNC_DISCORD_GUILD_ID }}
-          DISCORD_EVENTS_SYNC_DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_EVENTS_SYNC_DISCORD_BOT_TOKEN }}
-          DISCORD_EVENTS_SYNC_DISCORD_APPLICATION_ID: ${{ secrets.DISCORD_EVENTS_SYNC_DISCORD_APPLICATION_ID }}
-          DISCORD_EVENTS_SYNC_GOOGLE_CALENDAR_CALENDAR_ID: ${{ secrets.DISCORD_EVENTS_SYNC_GOOGLE_CALENDAR_CALENDAR_ID }}
-          DISCORD_EVENTS_SYNC_GOOGLE_CALENDAR_API_KEY: ${{ secrets.DISCORD_EVENTS_SYNC_GOOGLE_CALENDAR_API_KEY }}
+          discord-guild-id: ${{ secrets.DISCORD_EVENTS_SYNC_DISCORD_GUILD_ID }}
+          discord-bot-token: ${{ secrets.DISCORD_EVENTS_SYNC_DISCORD_BOT_TOKEN }}
+          discord-application-id: ${{ secrets.DISCORD_EVENTS_SYNC_DISCORD_APPLICATION_ID }}
+          google-calendar-id: ${{ secrets.DISCORD_EVENTS_SYNC_GOOGLE_CALENDAR_CALENDAR_ID }}
+          google-api-key: ${{ secrets.DISCORD_EVENTS_SYNC_GOOGLE_CALENDAR_API_KEY }}

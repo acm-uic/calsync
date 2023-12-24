@@ -5,7 +5,33 @@
 
 🔁 Sync Google Calendar events to Discord Scheduled Events.
 
-🤖 Designed to run as a scheduled job in GitHub Actions.
+🤖 Designed to run as a scheduled job in GitHub Actions as a GitHub Action.
+
+## Getting Started
+
+```yml
+# .github/workflows/calsync.yml
+name: calsync
+
+on:
+  schedule:
+    - cron: '0 * * * *' # hourly
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: 🔁 Sync Events
+    steps:
+      - uses: acm-uic/calsync@main
+        with:
+          discord-guild-id: ${{ secrets.DISCORD_GUILD_ID }}
+          discord-bot-token: ${{ secrets.DISCORD_BOT_TOKEN }} # needs "Read Messages/View Channels", "Manage Events" permissions
+          discord-application-id: ${{ secrets.DISCORD_APPLICATION_ID }}
+          google-calendar-id: ${{ secrets.GOOGLE_CALENDAR_CALENDAR_ID }}
+          google-api-key: ${{ secrets.GOOGLE_CALENDAR_API_KEY }}
+
+```
 
 ## How does it work?
 
@@ -21,4 +47,4 @@ variables or in `.env.` file in the root of the repository.
 
 ## Discord bot permissions
 
-The Discord bot needs permissions to view channels, and to manage events.
+The Discord bot needs "Read Messages/View Channels", "Manage Events" permissions.
