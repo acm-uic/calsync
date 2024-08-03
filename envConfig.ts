@@ -1,4 +1,4 @@
-import "https://deno.land/std@0.209.0/dotenv/load.ts";
+import "@std/dotenv/load";
 
 /** Prefix used for environment variable config options */
 const ENVIRONMENT_VARIABLE_PREFIX = "DISCORD_EVENTS_SYNC_";
