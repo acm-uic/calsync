@@ -26,7 +26,7 @@ jobs:
       - uses: acm-uic/calsync@main
         with:
           discord-guild-id: ${{ secrets.DISCORD_GUILD_ID }}
-          discord-bot-token: ${{ secrets.DISCORD_BOT_TOKEN }} # needs "Read Messages/View Channels", "Manage Events" permissions
+          discord-bot-token: ${{ secrets.DISCORD_BOT_TOKEN }} # needs "bot" scope and "View Channels", "Manage Events", "Create Events" bot permissions. permissions=17600775980032
           discord-application-id: ${{ secrets.DISCORD_APPLICATION_ID }}
           google-calendar-id: ${{ secrets.GOOGLE_CALENDAR_CALENDAR_ID }}
           google-api-key: ${{ secrets.GOOGLE_CALENDAR_API_KEY }}
