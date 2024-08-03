@@ -3,11 +3,12 @@
     "strict": true
   },
   "fmt": {
-    "options": {
-      "indentWidth": 2,
-      "lineWidth": 120,
-      "singleQuote": false,
-      "useTabs": false
-    }
+    "indentWidth": 2,
+    "lineWidth": 120,
+    "singleQuote": false,
+    "useTabs": false
+  },
+  "imports": {
+    "@std/dotenv": "jsr:@std/dotenv@^0.225.0"
   }
 }
