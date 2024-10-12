@@ -28,3 +28,4 @@ runs:
         DISCORD_EVENTS_SYNC_DISCORD_APPLICATION_ID: ${{ inputs.discord-application-id }}
         DISCORD_EVENTS_SYNC_GOOGLE_CALENDAR_CALENDAR_ID: ${{ inputs.google-calendar-id }}
         DISCORD_EVENTS_SYNC_GOOGLE_CALENDAR_API_KEY: ${{ inputs.google-api-key }}
+        DISCORD_EVENTS_SYNC_GOOGLE_CALENDAR_SERVICE_ACCOUNT_KEY_JSON: ${{ inputs.google-service-account-key-json }}
