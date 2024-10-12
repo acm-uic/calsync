@@ -29,7 +29,8 @@ jobs:
           discord-bot-token: ${{ secrets.DISCORD_BOT_TOKEN }} # needs "bot" scope and "View Channels", "Manage Events", "Create Events" bot permissions. permissions=17600775980032
           discord-application-id: ${{ secrets.DISCORD_APPLICATION_ID }}
           google-calendar-id: ${{ secrets.GOOGLE_CALENDAR_CALENDAR_ID }}
-          google-api-key: ${{ secrets.GOOGLE_CALENDAR_API_KEY }}
+          google-service-account-key-json: ${{ secrets.GOOGLE_CALENDAR_SERVICE_ACCOUNT_KEY_JSON }} # either use google-api-key or google-service-account-key-json
+          google-api-key: ${{ secrets.GOOGLE_CALENDAR_API_KEY }} # either use google-api-key or google-service-account-key-json
 ```
 
 ## How does it work?
@@ -47,3 +48,14 @@ variables or in `.env.` file in the root of the repository.
 ## Discord bot permissions
 
 The Discord bot needs "Read Messages/View Channels", "Manage Events" permissions.
+
+## Google Cloud setup
+
+1. Enable the Google Calendar API for the Google Cloud project.
+2. Create a service account and download the JSON key.
+   1. Credeintials -> Create Credentials -> Service Account -> JSON key
+   2. In Step 2 (Grant this service account access to project): Add "Service Account Token Creator" role
+   3. After creation, click on the service account, go to "Keys" tab, and create a new JSON key.
+   4. Save the JSON key as a secret in the GitHub repository.
+3. Share the Google Calendar with the service account email. "Settings and sharing" -> "Share with specific people" ->
+   Add the service account email. Give it "See all event details" permission.

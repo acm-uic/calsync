@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  calsync:
     runs-on: ubuntu-latest
-    name: sync
+    name: 🔁 Sync Events
     steps:
       - uses: acm-uic/calsync@main
         with:
@@ -18,3 +18,4 @@ jobs:
           discord-application-id: ${{ secrets.DISCORD_EVENTS_SYNC_DISCORD_APPLICATION_ID }}
           google-calendar-id: ${{ secrets.DISCORD_EVENTS_SYNC_GOOGLE_CALENDAR_CALENDAR_ID }}
           google-api-key: ${{ secrets.DISCORD_EVENTS_SYNC_GOOGLE_CALENDAR_API_KEY }}
+          google-service-account-key-json: ${{ secrets.DISCORD_EVENTS_SYNC_GOOGLE_CALENDAR_SERVICE_ACCOUNT_KEY_JSON }}
