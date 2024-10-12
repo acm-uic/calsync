@@ -53,7 +53,7 @@ The Discord bot needs "Read Messages/View Channels", "Manage Events" permissions
 
 1. Enable the Google Calendar API for the Google Cloud project.
 2. Create a service account and download the JSON key.
-   1. Credeintials -> Create Credentials -> Service Account -> JSON key
+   1. Credentials -> Create Credentials -> Service Account -> JSON key
    2. In Step 2 (Grant this service account access to project): Add "Service Account Token Creator" role
    3. After creation, click on the service account, go to "Keys" tab, and create a new JSON key.
    4. Save the JSON key as a secret in the GitHub repository.
