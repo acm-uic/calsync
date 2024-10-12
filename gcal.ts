@@ -48,7 +48,6 @@ export class GoogleCalendarClient {
     }
 
     const { client_email, private_key } = this.#serviceAccountKeyJson;
-    console.log(`Getting access token for ${client_email}`);
 
     const header = { alg: "RS256", typ: "JWT" };
     const now = Math.floor(Date.now() / 1000);
