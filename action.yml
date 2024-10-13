@@ -8,8 +8,12 @@ inputs:
     required: true
   google-calendar-id:
     required: true
+  google-service-account-key-json:
+    description: 'Either google-api-key or google-service-account-key-json needs to be specified'
+    required: false
   google-api-key:
-    required: true
+    description: 'Either google-api-key or google-service-account-key-json needs to be specified'
+    required: false
 runs:
   using: "composite"
   steps:
