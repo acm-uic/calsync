@@ -15,7 +15,7 @@ name: calsync
 
 on:
   schedule:
-    - cron: '0 * * * *' # hourly
+    - cron: "0 * * * *" # hourly
   workflow_dispatch:
 
 jobs:
