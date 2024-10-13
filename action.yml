@@ -1,4 +1,4 @@
-name: 'calsync'
+name: "calsync"
 inputs:
   discord-guild-id:
     required: true
