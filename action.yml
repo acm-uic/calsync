@@ -9,10 +9,10 @@ inputs:
   google-calendar-id:
     required: true
   google-service-account-key-json:
-    description: 'Either google-api-key or google-service-account-key-json needs to be specified'
+    description: "Either google-api-key or google-service-account-key-json needs to be specified"
     required: false
   google-api-key:
-    description: 'Either google-api-key or google-service-account-key-json needs to be specified'
+    description: "Either google-api-key or google-service-account-key-json needs to be specified"
     required: false
 runs:
   using: "composite"
