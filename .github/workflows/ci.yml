@@ -9,7 +9,7 @@ jobs:
     name: build
     steps:
       - name: Checkout repo 🛎
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup Deno 🔧
         uses: denoland/setup-deno@v2
